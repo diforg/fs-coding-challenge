@@ -7,17 +7,31 @@ use App\Models\Channel;
 
 class ChannelSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
+    public function run()
     {
-        $channels = ['whatsapp', 'telegram', 'messenger'];
+        $channels = [
+            [
+                'name' => 'WhatsApp',
+                'identifier' => 'whatsapp',
+                'is_active' => true
+            ],
+            [
+                'name' => 'Telegram',
+                'identifier' => 'telegram', 
+                'is_active' => false
+            ],
+            [
+                'name' => 'Messenger',
+                'identifier' => 'messenger',
+                'is_active' => false
+            ]
+        ];
 
-        foreach ($channels as $name) {
-            Channel::firstOrCreate([
-                'name' => $name
-            ]);
+        foreach ($channels as $channel) {
+            Channel::firstOrCreate(
+                ['identifier' => $channel['identifier']],
+                $channel
+            );
         }
     }
 }
