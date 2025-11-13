@@ -12,7 +12,7 @@ class ChannelSeeder extends Seeder
      */
     public function run(): void
     {
-        $channels = ['whatsapp', 'messenger', 'email'];
+        $channels = ['whatsapp', 'telegram', 'messenger'];
 
         foreach ($channels as $name) {
             Channel::firstOrCreate([
