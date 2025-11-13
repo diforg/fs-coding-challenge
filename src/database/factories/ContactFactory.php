@@ -17,10 +17,12 @@ class ContactFactory extends Factory
      */
     public function definition(): array
     {
+        $name = $this->faker->firstName();
         return [
             'channel_id' => Channel::inRandomOrder()->first()->id,
-            'name'       => $this->faker->name(),
-            'photo'      => 'https://placehold.co/150x150?text=' . urlencode($this->faker->firstName()),
+            'name'       => $name,
+            'identifier' => $name,
+            'photo'      => 'https://placehold.co/150x150?text=' . urlencode($name),
         ];
     }
 }
