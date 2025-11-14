@@ -31,7 +31,7 @@ abstract class ChannelService
     /**
      * Encontra ou cria contato
      */
-    protected function findOrCreateContact(string $identifier, string $name, string $photo): Contact
+    protected function findOrCreateContact(string $identifier, ?string $name = null, ?string $photo = null): Contact
     {
         $channel = $this->getChannel();
         return Contact::findOrCreate($channel->id, $identifier, $name, $photo);
