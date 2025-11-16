@@ -62,6 +62,25 @@ class Message extends Model
         });
     }
 
+    /**
+     * Cria uma nova mensagem
+     *
+     * @param int $contact_id
+     * @param string $message
+     * @param string $origin
+     * @param string|null $message_id
+     * @return Message
+     */
+    public static function createMessage($contact_id, $message, $origin, $message_id = null)
+    {
+        return self::create([
+            'contact_id' => $contact_id,
+            'message' => $message,
+            'origin' => $origin,
+            'message_id' => $message_id
+        ]);
+    }
+    
     // Status possíveis
     const STATUS_SENT = 'sent';
     const STATUS_DELIVERED = 'delivered';
