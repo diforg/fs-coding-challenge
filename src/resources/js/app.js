@@ -1,8 +1,10 @@
 import { createApp, h } from 'vue'
-import { createInertiaApp } from '@inertiajs/vue3'
+import { createPinia } from "pinia";
+import { createInertiaApp } from '@inertiajs/inertia-vue3'
+import { useGlobalStore } from "./stores/global.js"
+import '../css/app.css'
 
-const pages = import.meta.glob('./pages/**/*.vue') // importa todas as páginas automaticamente
-
+const pages = import.meta.glob('./pages/**/*.vue')
 createInertiaApp({
   resolve: name => {
     const page = pages[`./pages/${name}.vue`]
@@ -10,8 +12,14 @@ createInertiaApp({
     return page()
   },
   setup({ el, App, props, plugin }) {
+    const pinia = createPinia();
+
     createApp({ render: () => h(App, props) })
       .use(plugin)
+      .use(pinia)
       .mount(el)
+
+    const themeStore = useGlobalStore()
+    themeStore.setTheme(themeStore.theme)
   },
 })
