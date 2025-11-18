@@ -27,7 +27,7 @@ class WhatsappService
             );
 
             // Create message record
-            $message = Message::createMessage($contact->id, $messageData['message'], 'received', $messageData['message_id']);
+            $message = Message::createMessage($contact->id, $messageData['message'], 'incoming', $messageData['message_id']);
 
             return [
                 'success' => true,
