@@ -17,10 +17,9 @@ Acesse o terminal e rode os comandos abaixo:
 
 - Rodar no terminal o comando abaixo:
 
-```markdown
 ```bash
 curl -X POST \
-  http://localhost/api/webhook/whatsapp/received \
+  http://localhost:8088/api/webhook/whatsapp/received \
   -H "Content-Type: application/json" \
   -H "User-Agent: WhatsAppWebhook/1.0" \
   -d '{
@@ -64,4 +63,4 @@ curl -X POST \
 
 ## 📋 Próximas Features
 
-- Ambiente frontend com vue, inertia e tailwind
+- Comando para gerar novas mensagens automaticamente
