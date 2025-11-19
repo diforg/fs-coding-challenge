@@ -1,55 +1,94 @@
-# 📋 Desafio Técnico: Desenvolvedor Pleno Full Stack (Laravel/Vue)
+# 🚀 Desafio Técnico: Desenvolvedor Pleno Full Stack (Laravel/Vue)
 
-## 📝 Pré requisitos
-- Docker e Git instalado na máquina
+## 📋 Índice
 
-## 📝 Instalação
+- [🎯 Sobre o Desafio](#-sobre-o-desafio)
+- [⚙️ Pré-requisitos](#️-pré-requisitos)
+- [🚀 Instalação e Configuração](#-instalação-e-configuração)
+- [🌐 Acesso à Aplicação](#-acesso-à-aplicação)
+- [🔧 Comandos Úteis](#-comandos-úteis)
+- [🔄 Testes de Webhook](#-testes-de-webhook)
+- [📈 Próximas Features](#-próximas-features)
 
-Acesse o terminal e rode os comandos abaixo:
+---
 
-1. ✅ **Clonar o projeto:** 
+## 🎯 Sobre o Desafio
 
-`git clone https://github.com/diforg/fs-coding-challenge.git && cd fs-coding-challenge`
+Desafio técnico para vaga de Desenvolvedor Pleno Full Stack, focado na integração com APIs de mensageria (WhatsApp, Messenger e Telegram) utilizando Laravel e Vue.js.
 
-2. ✅ **Acessar a branch do desafio:** 
+---
 
-`git fetch origin diego-forganes && git checkout diego-forganes`
+## ⚙️ Pré-requisitos
 
-3. ✅ **Configurar .env:** 
+- 🐳 **Docker** instalado na máquina
+- 📦 **Git** para baixar o código
 
-`cp src/.env.example src/.env` <sub>(linux / mac)</sub>
+---
 
-ou
+## 🚀 Instalação e Configuração
 
-`copy src/.env.example src/.env` <sub>(windows)</sub>
+Siga os passos abaixo para configurar o ambiente de desenvolvimento:
 
-4. ✅ **Subir o Projeto:** 
+### 1. 📥 **Clonar o Repositório**
+```
+git clone https://github.com/diforg/fs-coding-challenge.git && cd fs-coding-challenge
+```
 
-`cd docker/ && docker compose up`
+### 2. 🌿 **Acessar a Branch do Desafio**
+```
+git fetch origin diego-forganes && git checkout diego-forganes
+```
 
-5. ✅ **Entrar no projeto:** 
+### 3. ⚙️ **Configurar Variáveis de Ambiente**
+```
+# Linux/Mac
+cp src/.env.example src/.env
 
-`docker exec -it fscc-php_app bash`
+# Windows
+copy src/.env.example src/.env
+```
 
+### 4. 🐳 **Subir os Containers Docker**
+```
+cd docker/ && docker compose up
+```
 
+### 5. 🔄 **Acessar o Container da Aplicação**
+```
+docker exec -it fscc-php_app bash
+```
 
-## 📝 Comando para simular novas mensagens
+---
 
+## 🌐 Acesso à Aplicação
+
+- **Interface do Usuário**: http://localhost:8088/
+
+---
+
+## 🔧 Comandos Úteis
+
+### 🎭 **Simular Novas Mensagens**
 ```
 php artisan messages:generate
 ```
 
-## 📝 Comando para rodar os testes
-
+### 🧪 **Executar Testes**
 ```
 php artisan test
 ```
 
-## 📝 Testar/Simular a integração com o webhook do whatsapp
+### 📊 **Ver Logs da Aplicação**
+```
+tail -f storage/logs/laravel.log
+```
 
-- Rodar no terminal o comando abaixo:
+---
 
-```bash
+## 🔄 Testes de Webhook
+
+### 📱 **WhatsApp Webhook**
+```
 curl -X POST \
   http://localhost:8088/api/webhook/whatsapp/received \
   -H "Content-Type: application/json" \
@@ -83,11 +122,7 @@ curl -X POST \
                 "text": {
                   "body": "Olá, gostaria de entender melhor seus serviços!"
                 },
-                "type": "text",
-                "context": {
-                  "from": "5511888888888",
-                  "id": "wamid.ABGGFDSEF5TJR3I4O5K6L7M8N9O0P1Q2R3S4T5U6V7W8X9Y0Z"
-                }
+                "type": "text"
               }
             ]
           },
@@ -96,16 +131,12 @@ curl -X POST \
       ]
     }
   ]
-  }'
-  
-  ```
+}'
+```
 
-## 📝 Testar/Simular a integração com o webhook do Messenger
-
-- Rodar no terminal o comando abaixo:
-
-```bash
-  curl -X POST \
+### 💬 **Messenger Webhook**
+```
+curl -X POST \
   http://localhost:8088/api/webhook/messenger/received \
   -H "Content-Type: application/json" \
   -H "User-Agent: MessengerWebhook/1.0" \
@@ -126,41 +157,18 @@ curl -X POST \
           "timestamp": 1705336222500,
           "message": {
             "mid": "mid.4334433455:v34fe4frvtrf",
-            "text": "Olá, estou interessado nos seus produtos!",
-            "quick_reply": {
-              "payload": "PAYLOAD_123"
-            },
-            "nlp": {
-              "entities": {
-                "greeting": [
-                  {
-                    "confidence": 0.99,
-                    "value": "true"
-                  }
-                ],
-                "sentiment": [
-                  {
-                    "confidence": 0.85,
-                    "value": "positive"
-                  }
-                ]
-              }
-            }
+            "text": "Olá, estou interessado nos seus produtos!"
           }
         }
       ]
     }
   ]
-  }'
-  
-  ```
+}'
+```
 
-## 📝 Testar/Simular a integração com o webhook do telegram
-
-- Rodar no terminal o comando abaixo:
-
-```bash
-  curl -X POST \
+### 📲 **Telegram Webhook**
+```
+curl -X POST \
   http://localhost:8088/api/webhook/telegram/received \
   -H "Content-Type: application/json" \
   -H "User-Agent: TelegramWebhook/1.0" \
@@ -172,32 +180,55 @@ curl -X POST \
       "id": 45544343,
       "is_bot": false,
       "first_name": "João",
-      "last_name": "Fernandes",
       "username": "joaofernandes",
       "language_code": "pt-br"
     },
     "chat": {
       "id": 77544e5665,
       "first_name": "João",
-      "last_name": "Fernandes",
       "username": "joaofernandes",
       "type": "private"
     },
     "date": 1705336222,
-    "text": "Olá, quais as opções de produtos vocês possuem?",
-    "entities": [
-      {
-        "offset": 0,
-        "length": 3,
-        "type": "bold"
-      }
-    ]
+    "text": "Olá, quais as opções de produtos vocês possuem?"
   }
-  }'
+}'
+```
 
-  ```
+---
 
+## 📈 Próximas Features
 
-## 📋 Próximas Features
+- 👤 **Integração com API do Messenger** para trazer o nome do contato pelo ID
+- 🔔 **Sistema de notificações** em tempo real
+- 🗃️ **Filtros avançados** para histórico de conversas
+- 🔐 **Sistema de autenticação** com níveis de acesso
 
-- Acessar API do Messenger para trazer o nome do contato pelo ID
+---
+
+## 🆘 Troubleshooting
+
+### 🔄 Reiniciar os Containers
+```
+docker compose down && docker compose up -d
+```
+
+### 🗑️ Limpar Cache da Aplicação
+```
+php artisan cache:clear
+php artisan config:clear
+php artisan route:clear
+```
+
+### 📋 Ver Status dos Containers
+```
+docker compose ps
+```
+
+---
+
+<div align="center">
+
+**Desenvolvido com ❤️ por Diego Forganes**
+
+</div>
