@@ -8,7 +8,9 @@
 - [🌐 Acesso à Aplicação](#-acesso-à-aplicação)
 - [🔧 Comandos Úteis](#-comandos-úteis)
 - [🔄 Testes de Webhook](#-testes-de-webhook)
+- [🔧 Decisões Técnicas e Trade-offs] (#-decisões-técnicas)
 - [📈 Próximas Features](#-próximas-features)
+- [🆘 Troubleshooting] (#-troubleshooting)
 
 ---
 
@@ -87,7 +89,7 @@ tail -f storage/logs/laravel.log
 
 ## 🔄 Testes de Webhook
 
-### 📱 **WhatsApp Webhook**
+### 💬 **WhatsApp Webhook**
 ```
 curl -X POST \
   http://localhost:8088/api/webhook/whatsapp/received \
@@ -166,7 +168,7 @@ curl -X POST \
 }'
 ```
 
-### 📲 **Telegram Webhook**
+### 💬 **Telegram Webhook**
 ```
 curl -X POST \
   http://localhost:8088/api/webhook/telegram/received \
@@ -194,6 +196,22 @@ curl -X POST \
   }
 }'
 ```
+
+---
+
+## 🔧 Decisões Técnicas e Trade-offs
+
+### Separação de Infraestrutura e Código
+Optei por separar claramente os arquivos de configuração do Docker (infraestrutura) do código da aplicação. Isso permite que desenvolvedores foquem na lógica de negócio sem se preocupar com configurações de ambiente, enquanto a infraestrutura pode ser gerenciada e escalada independentemente.
+
+### Serviços Independentes por Plataforma
+Cada integração com plataforma de mensagens (WhatsApp, Messenger, Telegram) foi desenvolvida como um serviço isolado com seu próprio endpoint exclusivo. Essa abordagem facilita a manutenção, permite evoluir cada integração separadamente e isola falhas entre as diferentes plataformas.
+
+### Simulação Realista de Webhooks
+Utilizamos JSONs que replicam fielmente a estrutura real das APIs das plataformas para simular as integrações. Isso garante que os testes sejam representativos do ambiente real e facilita a transição para integrações produtivas quando necessário.
+
+### Arquitetura Simples e Escalável
+O foco do projeto foi demonstrar uma abordagem limpa e direta para integração via webhooks, evitando complexidades desnecessárias. A arquitetura proposta é facilmente escalável e permite adicionar novas integrações com esforço mínimo, mantendo a consistência e organização do código.
 
 ---
 
