@@ -56,7 +56,7 @@ class Message extends Model
             'message' => $message,
             'message_id' => $message_id,
             'origin' => 'received',
-            'is_read'    => 1,
+            'is_read' => false,
             'status' => 'delivered',
             'metadata' => $metadata,
         ]);

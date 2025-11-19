@@ -22,7 +22,7 @@ class MessageFactory extends Factory
             'message'    => $this->faker->paragraph(),
             'message_id' => $this->faker->uuid(),
             'origin'     => 'received',
-            'is_read'    => 1,
+            'is_read'    => false,
             'status'     => 'delivered',
             'metadata'   => []
          ];
