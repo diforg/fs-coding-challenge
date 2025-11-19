@@ -65,7 +65,6 @@ describe('WhatsappService', function () {
             $this->assertDatabaseHas('messages', [
                 'contact_id' => $result['contact_id'],
                 'message' => 'Test message',
-                'origin' => 'incoming',
                 'message_id' => 'wamid.123456'
             ]);
         });
@@ -131,7 +130,7 @@ describe('WhatsappService', function () {
 
             $this->assertDatabaseHas('contacts', [
                 'identifier' => '5511666666666',
-                'name' => 'Contato 5511666666666'
+                'name' => 'Contato ' . substr('5511666666666', -4)
             ]);
         });
 

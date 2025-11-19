@@ -12,9 +12,9 @@ class Message extends Model
     protected $fillable = [
         'contact_id',
         'message',
+        'message_id', // ID externo da mensagem
         'origin',
         'is_read',
-        'message_id', // ID externo da mensagem
         'status',
         'metadata'
     ];
@@ -41,21 +41,24 @@ class Message extends Model
     }
 
     /**
-     * Cria uma nova mensagem
+     * Cria registro de mensagem recebida
      *
      * @param int $contact_id
      * @param string $message
-     * @param string $origin
      * @param string|null $message_id
+     * @param array $metadata
      * @return Message
      */
-    public static function createMessage($contact_id, $message, $origin, $message_id = null)
+    public static function receive($contact_id, $message, $message_id, $metadata = []): Message
     {
         return self::create([
             'contact_id' => $contact_id,
             'message' => $message,
-            'origin' => $origin,
-            'message_id' => $message_id
+            'message_id' => $message_id,
+            'origin' => 'received',
+            'is_read'    => 1,
+            'status' => 'delivered',
+            'metadata' => $metadata,
         ]);
     }
 
@@ -82,6 +85,7 @@ class Message extends Model
             'message'    => $message,
             'origin'     => 'sent',
             'is_read'    => false,
+            'status'     => 'pending',
         ]);
     }
 
@@ -128,9 +132,9 @@ class Message extends Model
     /** 
      * Constantes de status da mensagem
      */
-    const STATUS_SENT = 'sent';
-    const STATUS_DELIVERED = 'delivered';
-    const STATUS_READ = 'read';
-    const STATUS_FAILED = 'failed';
     const STATUS_PENDING = 'pending';
+    const STATUS_SENT = 'sent';
+    const STATUS_READ = 'read';
+    const STATUS_DELIVERED = 'delivered';
+    const STATUS_FAILED = 'failed';
 }

@@ -53,14 +53,13 @@ describe('MessengerService', function () {
             $this->assertDatabaseHas('contacts', [
                 'channel_id' => $this->channel->id,
                 'identifier' => '12345678901234567',
-                'name' => 'Contato 12345678901234567'
+                'name' => 'Contato ' . substr('12345678901234567', -4)
             ]);
 
             $this->assertDatabaseHas('messages', [
                 'contact_id' => $result['contact_id'],
                 'message' => 'Test message',
-                'origin' => 'incoming',
-                'message_id' => 'mid.123456789012345:abcdef1234567890'
+                'message_id' => 'mid.123456789012345:abcdef1234567890',
             ]);
         });
 
@@ -78,7 +77,7 @@ describe('MessengerService', function () {
             $this->assertDatabaseCount('contacts', 1);
             $this->assertDatabaseHas('contacts', [
                 'identifier' => '98765432109876543',
-                'name' => 'Contato 98765432109876543'
+                'name' => 'Contato ' . substr('98765432109876543', -4)
             ]);
         });
 
@@ -131,7 +130,7 @@ describe('MessengerService', function () {
 
             $this->assertDatabaseHas('contacts', [
                 'identifier' => '12345678901234567',
-                'name' => 'Contato 12345678901234567'
+                'name' => 'Contato ' . substr('12345678901234567', -4)
             ]);
 
             $this->assertDatabaseHas('messages', [

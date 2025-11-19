@@ -48,8 +48,8 @@ class Contact extends Model
                 'identifier' => $identifier
             ],
             [
-                'name' => $name ?? 'Contato ' . $identifier,
-                'photo' => $photo ?? '',
+                'name' => $name ?? 'Contato ' . substr($identifier, -4),
+                'photo' => $photo ?? 'https://placehold.co/150x150?text=' . urlencode($name),
                 'metadata' => []
             ]
         );

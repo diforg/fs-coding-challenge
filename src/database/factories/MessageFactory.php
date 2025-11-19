@@ -20,8 +20,11 @@ class MessageFactory extends Factory
         return [
             'contact_id' => Contact::inRandomOrder()->first()->id,
             'message'    => $this->faker->paragraph(),
-            'origin'     => $this->faker->randomElement(['received', 'sent']),
-            'is_read'    => $this->faker->boolean(),
+            'message_id' => $this->faker->uuid(),
+            'origin'     => 'received',
+            'is_read'    => 1,
+            'status'     => 'delivered',
+            'metadata'   => []
          ];
     }
 }

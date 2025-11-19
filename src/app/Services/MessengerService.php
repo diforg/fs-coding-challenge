@@ -27,7 +27,7 @@ class MessengerService
             );
 
             // Create message record
-            $message = Message::createMessage($contact->id, $messageData['message'], 'incoming', $messageData['message_id']);
+            $message = Message::receive($contact->id, $messageData['message'], $messageData['message_id'], $messageData);
 
             return [
                 'success' => true,
@@ -58,7 +58,6 @@ class MessengerService
             'contact_identifier' => $sender['id'] ?? null,
             'contact_name' => null, // Não disponível no webhook inicial
             'message' => $message['text'] ?? null,
-            'sender_id' => $sender['id'] ?? null,
         ];
     }
 }
