@@ -5,36 +5,30 @@ namespace Tests\Unit\Services;
 use Tests\TestCase;
 use App\Models\Channel;
 use App\Models\Contact;
-use App\Services\WhatsappService;
+use App\Services\MessengerService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(TestCase::class, RefreshDatabase::class);
 
 beforeEach(function () {
     $this->channel = Channel::factory()->create([
-        'identifier' => 'whatsapp',
+        'identifier' => 'messenger',
         'name' => 'Test Channel'
     ]);
-    $this->service = app(WhatsappService::class);
+    $this->service = app(MessengerService::class);
     
+    // Payload padrão que funciona para a maioria dos testes
     $this->validPayload = [
         'entry' => [
             [
-                'changes' => [
+                'messaging' => [
                     [
-                        'value' => [
-                            'contacts' => [
-                                [
-                                    'profile' => ['name' => 'John Doe'],
-                                    'wa_id' => '5511999999999'
-                                ]
-                            ],
-                            'messages' => [
-                                [
-                                    'id' => 'wamid.123456',
-                                    'text' => ['body' => 'Test message']
-                                ]
-                            ]
+                        'sender' => [
+                            'id' => '12345678901234567'
+                        ],
+                        'message' => [
+                            'mid' => 'mid.123456789012345:abcdef1234567890',
+                            'text' => 'Test message'
                         ]
                     ]
                 ]
@@ -43,7 +37,7 @@ beforeEach(function () {
     ];
 });
 
-describe('WhatsappService', function () {
+describe('MessengerService', function () {
     describe('processMessage()', function () {
         it('processes message successfully with valid payload', function () {
             // Act
@@ -58,24 +52,23 @@ describe('WhatsappService', function () {
             // Verify database records
             $this->assertDatabaseHas('contacts', [
                 'channel_id' => $this->channel->id,
-                'identifier' => '5511999999999',
-                'name' => 'John Doe'
+                'identifier' => '12345678901234567',
+                'name' => 'Contato 12345678901234567'
             ]);
 
             $this->assertDatabaseHas('messages', [
                 'contact_id' => $result['contact_id'],
                 'message' => 'Test message',
                 'origin' => 'incoming',
-                'message_id' => 'wamid.123456'
+                'message_id' => 'mid.123456789012345:abcdef1234567890'
             ]);
         });
 
         it('creates new contact when contact does not exist', function () {
-            // Arrange - Modifica apenas o telefone e nome para garantir novo contato
+            // Arrange - Modifica apenas o ID do sender para garantir novo contato
             $payload = array_merge_recursive([], $this->validPayload);
-            $payload['entry'][0]['changes'][0]['value']['contacts'][0]['wa_id'] = '5511888888888';
-            $payload['entry'][0]['changes'][0]['value']['contacts'][0]['profile']['name'] = 'Jane Smith';
-            $payload['entry'][0]['changes'][0]['value']['messages'][0]['text']['body'] = 'New contact message';
+            $payload['entry'][0]['messaging'][0]['sender']['id'] = '98765432109876543';
+            $payload['entry'][0]['messaging'][0]['message']['text'] = 'New contact message';
 
             // Act
             $result = $this->service->processMessage($payload);
@@ -84,8 +77,8 @@ describe('WhatsappService', function () {
             expect($result['success'])->toBeTrue();
             $this->assertDatabaseCount('contacts', 1);
             $this->assertDatabaseHas('contacts', [
-                'identifier' => '5511888888888',
-                'name' => 'Jane Smith'
+                'identifier' => '98765432109876543',
+                'name' => 'Contato 98765432109876543'
             ]);
         });
 
@@ -93,14 +86,13 @@ describe('WhatsappService', function () {
             // Arrange
             $contact = Contact::factory()->create([
                 'channel_id' => $this->channel->id,
-                'identifier' => '5511777777777',
+                'identifier' => '55555555555555555',
                 'name' => 'Existing User'
             ]);
 
             $payload = array_merge_recursive([], $this->validPayload);
-            $payload['entry'][0]['changes'][0]['value']['contacts'][0]['wa_id'] = '5511777777777';
-            $payload['entry'][0]['changes'][0]['value']['contacts'][0]['profile']['name'] = 'Existing User';
-            $payload['entry'][0]['changes'][0]['value']['messages'][0]['text']['body'] = 'Message from existing contact';
+            $payload['entry'][0]['messaging'][0]['sender']['id'] = '55555555555555555';
+            $payload['entry'][0]['messaging'][0]['message']['text'] = 'Message from existing contact';
 
             // Act
             $result = $this->service->processMessage($payload);
@@ -111,27 +103,6 @@ describe('WhatsappService', function () {
             $this->assertDatabaseHas('messages', [
                 'contact_id' => $contact->id,
                 'message' => 'Message from existing contact'
-            ]);
-        });
-
-        it('handles payload with missing optional fields', function () {
-            // Arrange - Remove o campo name
-            $payload = array_merge_recursive([], $this->validPayload);
-            unset($payload['entry'][0]['changes'][0]['value']['contacts'][0]['profile']['name']);
-            $payload['entry'][0]['changes'][0]['value']['contacts'][0]['wa_id'] = '5511666666666';
-            $payload['entry'][0]['changes'][0]['value']['messages'][0]['text']['body'] = 'Message without name';
-
-            // Act
-            $result = $this->service->processMessage($payload);
-
-            // Assert
-            expect($result)->toBeArray()
-                ->and($result['success'])->toBeTrue()
-                ->and($result['message_id'])->not->toBeNull();
-
-            $this->assertDatabaseHas('contacts', [
-                'identifier' => '5511666666666',
-                'name' => 'Contato 5511666666666'
             ]);
         });
 
@@ -159,13 +130,13 @@ describe('WhatsappService', function () {
                 ->and($result['success'])->toBeTrue();
 
             $this->assertDatabaseHas('contacts', [
-                'identifier' => '5511999999999',
-                'name' => 'John Doe'
+                'identifier' => '12345678901234567',
+                'name' => 'Contato 12345678901234567'
             ]);
 
             $this->assertDatabaseHas('messages', [
                 'message' => 'Test message',
-                'message_id' => 'wamid.123456'
+                'message_id' => 'mid.123456789012345:abcdef1234567890'
             ]);
         });
     });
