@@ -48,16 +48,18 @@ class WhatsappService
      */
     private function extractMessageData(array $payload): array
     {
-        $message = $payload['message'] ?? [];
-        $from = $message['from'] ?? [];
-        $content = $message['content'] ?? [];
+        $entry = $payload['entry'][0] ?? [];
+        $changes = $entry['changes'][0] ?? [];
+        $value = $changes['value'] ?? [];
         
+        $contacts = $value['contacts'][0] ?? [];
+        $messages = $value['messages'][0] ?? [];
 
         return [
-            'message_id' => $message['id'] ?? null,
-            'contact_identifier' => $from['phone'] ?? null,
-            'contact_name' => $from['name'] ?? null,
-            'message' => $content['text'] ?? null,
+            'message_id' => $messages['id'] ?? null,
+            'contact_identifier' => $contacts['wa_id'] ?? null,
+            'contact_name' => $contacts['profile']['name'] ?? null,
+            'message' => $messages['text']['body'] ?? null,
         ];
     }
 }

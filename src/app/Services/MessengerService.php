@@ -48,16 +48,17 @@ class MessengerService
      */
     private function extractMessageData(array $payload): array
     {
-        $message = $payload['message'] ?? [];
-        $from = $message['from'] ?? [];
-        $content = $message['content'] ?? [];
-        
+        $entry = $payload['entry'][0] ?? [];
+        $messaging = $entry['messaging'][0] ?? [];
+        $sender = $messaging['sender'] ?? [];
+        $message = $messaging['message'] ?? [];
 
         return [
-            'message_id' => $message['id'] ?? null,
-            'contact_identifier' => $from['phone'] ?? null,
-            'contact_name' => $from['name'] ?? null,
-            'message' => $content['text'] ?? null,
+            'message_id' => $message['mid'] ?? null,
+            'contact_identifier' => $sender['id'] ?? null,
+            'contact_name' => null, // Não disponível no webhook inicial
+            'message' => $message['text'] ?? null,
+            'sender_id' => $sender['id'] ?? null,
         ];
     }
 }

@@ -50,14 +50,12 @@ class TelegramService
     {
         $message = $payload['message'] ?? [];
         $from = $message['from'] ?? [];
-        $content = $message['content'] ?? [];
-        
 
         return [
-            'message_id' => $message['id'] ?? null,
-            'contact_identifier' => $from['phone'] ?? null,
-            'contact_name' => $from['name'] ?? null,
-            'message' => $content['text'] ?? null,
+            'message_id' => $message['message_id'] ?? null,
+            'contact_identifier' => $from['id'] ?? null,
+            'contact_name' => $from['first_name'] ?? null,
+            'message' => $message['text'] ?? null,
         ];
     }
 }
