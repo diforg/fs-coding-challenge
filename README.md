@@ -8,9 +8,9 @@
 - [🌐 Acesso à Aplicação](#-acesso-à-aplicação)
 - [🔧 Comandos Úteis](#-comandos-úteis)
 - [🔄 Testes de Webhook](#-testes-de-webhook)
-- [🔧 Decisões Técnicas e Trade-offs] (#-decisões-técnicas)
+- [🔧 Decisões Técnicas e Trade-offs](#-decisões-técnicas)
 - [📈 Próximas Features](#-próximas-features)
-- [🆘 Troubleshooting] (#-troubleshooting)
+- [🆘 Troubleshooting](#-troubleshooting)
 
 ---
 
