@@ -200,9 +200,9 @@ curl -X POST \
 ## 📈 Próximas Features
 
 - 👤 **Integração com API do Messenger** para trazer o nome do contato pelo ID
-- 🔔 **Sistema de notificações** em tempo real
-- 🗃️ **Filtros avançados** para histórico de conversas
-- 🔐 **Sistema de autenticação** com níveis de acesso
+- 🔔 **Envio das mensagens para as APIs** que estão marcadas com status pending
+- 🔄 **Atualização do status das mensagens** quando lida pelo contato
+- 🔐 **Sistema de autenticação** para controle de acesso
 
 ---
 
