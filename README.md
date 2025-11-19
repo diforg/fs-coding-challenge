@@ -7,13 +7,43 @@
 
 Acesse o terminal e rode os comandos abaixo:
 
-1. ✅ **Clonar o projeto:** `git clone git@github.com:diforg/fs-coding-challenge.git && cd coding-challenge;`
-2. ✅ **Acessar a branch do desafio:** `git fetch origin diego-forganes && git checkout diego-forganes`
-3. ✅ **Configurar .env:** Linux / Mac: `cp src/.env.example src/.env;` Windows: `copy src/.env.example src/.env`
-4. ✅ **Subir o Projeto:** `cd docker/ && docker compose up`
-5. ✅ **Entrar no projeto:** `docker exec -it fscc-php_app bash`
-6. ✅ **Comando para simular novas mensagens:** `php artisan messages:generate`
-7. ✅ **Comando para rodar os testes:** `php artisan test`
+1. ✅ **Clonar o projeto:** 
+
+`git clone https://github.com/diforg/fs-coding-challenge.git && cd fs-coding-challenge`
+
+2. ✅ **Acessar a branch do desafio:** 
+
+`git fetch origin diego-forganes && git checkout diego-forganes`
+
+3. ✅ **Configurar .env:** 
+
+`cp src/.env.example src/.env` <sub>(linux / mac)</sub>
+
+ou
+
+`copy src/.env.example src/.env` <sub>(windows)</sub>
+
+4. ✅ **Subir o Projeto:** 
+
+`cd docker/ && docker compose up`
+
+5. ✅ **Entrar no projeto:** 
+
+`docker exec -it fscc-php_app bash`
+
+
+
+## 📝 Comando para simular novas mensagens
+
+```
+php artisan messages:generate
+```
+
+## 📝 Comando para rodar os testes
+
+```
+php artisan test
+```
 
 ## 📝 Testar/Simular a integração com o webhook do whatsapp
 
